@@ -1,7 +1,7 @@
 #ifndef __FASTPID_H
 #define __FASTPID_H
 
-#include "main.h"
+#include "stdint.h"
 
 // PID结构体
 typedef struct
@@ -20,7 +20,7 @@ typedef struct
 void FastPID_Init(fastPID_t *S);
 
 // 增量式PID计算, 输入in为误差值
-__STATIC_FORCEINLINE float FastPID_Calc(fastPID_t *S, float in)
+static inline float FastPID_Calc(fastPID_t *S, float in)
 {
     float out;
 
