@@ -7,17 +7,6 @@
  */
 uint8_t __Motor_HardWare_Init_Check(Motor_t *motor);
 
-
-void Motor_Velocity_Control(Motor_t *pMotor);
-
-void Motor_Velocity_Open_Control(Motor_t *pMotor);
-
-void Motor_Position_Open_Control(Motor_t *pMotor);
-
-void Motor_Velocity_Close_Control(Motor_t *pMotor);
-
-void Motor_Position_Close_Control(Motor_t *pMotor);
-
 void Motor_Init(Motor_t *motor, uint8_t polePairs, float voltage_supply)
 {
     motor->polePairs = polePairs;
