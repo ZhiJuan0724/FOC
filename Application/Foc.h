@@ -17,8 +17,6 @@ typedef struct FOC
     uint8_t isEnable;  //电机使能标志
     uint8_t polePairs; //极对数
 
-    float mAngle; //机械角度
-    float angle;  //角度
     float radian; //弧度
 
     float ia; // a相实际电流
@@ -56,7 +54,7 @@ typedef FOC_t *PFOC_t;
  * @param pFOC Foc结构体指针
  */
 void FOC_Init(PFOC_t pFOC, struct SVPWM *svpwm, struct Sense *sense,
-              struct Driver3 *driver, struct  Encoder *encoder, uint8_t xpolePairs);
+              struct Driver3 *driver, struct Encoder *encoder, uint8_t xpolePairs);
 
 /**
  * @brief FOC控制 **核心函数**
@@ -73,20 +71,13 @@ void FOC_Control(PFOC_t pFOC);
 void FOC_Set_CurrentTar(PFOC_t pFOC, float tarid, float tariq);
 
 /**
- * @brief 设置电流环参数
- * @param kp 比例
- * @param ki 积分
- * @param kd 微分
- * @param outMax 输出限幅
+ * 设置电流环参数
  * @param pFOC Foc结构体指针
+ * @param id_pid Iq PID
+ * @param iq_pid Id PID
  */
-void FOC_Set_CurrentPID(PFOC_t pFOC, float kp, float ki, float kd, float outMax);
+void FOC_Set_CurrentPID(PFOC_t pFOC, PID_t id_pid, PID_t iq_pid);
 
-/**
- * @brief 获取FOC机械角度
- * @param pFOC Foc结构体指针
- */
-float FOC_Read_Angle(PFOC_t pFOC);
 
 /**
  * @brief Park反变换

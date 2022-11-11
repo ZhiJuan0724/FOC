@@ -140,4 +140,5 @@ __weak void Motor_Position_Open_Control(Motor_t *pMotor);
  * @param pMotor 电机指针
  */
 __weak void Motor_Velocity_Open_Control(Motor_t *pMotor);
+
 #endif

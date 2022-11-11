@@ -1,5 +1,8 @@
 #include "FOC.h"
 
+// 电流环统一使用增量式PID
+struct PID defPID = {0, 0, 0, 0, 0, 0, 0, 0, POSITION_PID};
+
 /**
  * @brief 获取电机角度
  * @param pFOC Foc结构体指针
@@ -27,9 +30,7 @@ void FOC_Park_Transform(PFOC_t pFOC);
 
 void FOC_Update_Angle(PFOC_t pFOC)
 {
-    pFOC->mAngle = Encoder_Get_Angle_El(pFOC->encoder);
-    pFOC->angle = pFOC->mAngle * (float) pFOC->polePairs;
-    pFOC->radian = pFOC->angle * ANGLE_TO_RADIN;
+    pFOC->radian = Encoder_Get_Angle_El(pFOC->encoder) * (float) pFOC->polePairs;
 }
 
 void FOC_Current_Select(PFOC_t pFOC)
@@ -112,22 +113,16 @@ void FOC_Set_CurrentTar(PFOC_t pFOC, float tarid, float tariq)
     pFOC->tariq = tariq;
 }
 
-void FOC_Set_CurrentPID(PFOC_t pFOC, float kp, float ki, float kd, float outMax)
+void FOC_Set_CurrentPID(PFOC_t pFOC, PID_t id_pid, PID_t iq_pid)
 {
-    pFOC->idPID.kp = kp;
-    pFOC->idPID.ki = ki;
-    pFOC->idPID.kd = kd;
-    pFOC->idPID.outMax = outMax;
+    pFOC->idPID.kp = id_pid.kp;
+    pFOC->idPID.ki = id_pid.ki;
+    pFOC->idPID.kd = id_pid.kd;
 
-    pFOC->iqPID.kp = kp;
-    pFOC->iqPID.ki = ki;
-    pFOC->iqPID.kd = kd;
-    pFOC->iqPID.outMax = outMax;
-}
+    pFOC->iqPID.kp = iq_pid.kp;
+    pFOC->iqPID.ki = iq_pid.ki;
+    pFOC->iqPID.kd = iq_pid.kd;
 
-float FOC_Read_Angle(PFOC_t pFOC)
-{
-    return pFOC->mAngle;
 }
 
 void FOC_Init(PFOC_t pFOC, PSVPWM_t svpwm, Sense_t *sense,
@@ -136,8 +131,6 @@ void FOC_Init(PFOC_t pFOC, PSVPWM_t svpwm, Sense_t *sense,
     pFOC->isEnable = 1;
     pFOC->polePairs = xpolePairs;
 
-    pFOC->mAngle = 0;
-    pFOC->angle = 0;
     pFOC->radian = 0;
 
     pFOC->ia = 0;
@@ -159,10 +152,6 @@ void FOC_Init(PFOC_t pFOC, PSVPWM_t svpwm, Sense_t *sense,
     pFOC->svpwm = svpwm;
     pFOC->encoder = encoder;
     pFOC->sense = sense;
-
-    // 电流环统一使用增量式PID
-    struct PID defPID = {0};
-    defPID.type = DELTA_PID;
 
     pFOC->iqPID = defPID;
     pFOC->idPID = defPID;

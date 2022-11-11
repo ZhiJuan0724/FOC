@@ -94,12 +94,32 @@ void Motor_Run(Motor_t *motor)
 
 __weak void Motor_Position_Close_Control(Motor_t *pMotor)
 {
+    float position = Encoder_Get_Angle(pMotor->encoder_handle);
+    float speed = Encoder_Get_Velocity(pMotor->encoder_handle);
 
+    // 位置PID
+    PID_Calc(&pMotor->postion_pid, position, pMotor->target.target_val);
+
+    // 速度PID
+    PID_Calc(&pMotor->speed_pid, speed, pMotor->postion_pid.out);
+
+    FOC_Set_CurrentTar(pMotor->foc,0,pMotor->speed_pid.out);
+    FOC_Set_CurrentPID(pMotor->foc, pMotor->id_pid, pMotor->iq_pid);
+
+    FOC_Control(pMotor->foc);
 }
 
 __weak void Motor_Velocity_Close_Control(Motor_t *pMotor)
 {
+    float speed = Encoder_Get_Velocity(pMotor->encoder_handle);
 
+    //速度PID
+    PID_Calc(&pMotor->speed_pid, speed, pMotor->target.target_val);
+
+    FOC_Set_CurrentTar(pMotor->foc,0,pMotor->speed_pid.out);
+    FOC_Set_CurrentPID(pMotor->foc, pMotor->id_pid, pMotor->iq_pid);
+
+    FOC_Control(pMotor->foc);
 }
 
 __weak void Motor_Position_Open_Control(Motor_t *pMotor)
