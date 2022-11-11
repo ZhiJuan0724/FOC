@@ -19,7 +19,6 @@ void __SVPWM_Sector_Judgment(PSVPWM_t pSvpwm);
 void __SVPWM_Generate(PSVPWM_t pSvpwm);
 
 
-
 void __SVPWM_Sector_Judgment(PSVPWM_t pSvpwm)
 {
     uint8_t a;
@@ -31,27 +30,10 @@ void __SVPWM_Sector_Judgment(PSVPWM_t pSvpwm)
     pSvpwm->u2 = pSvpwm->Ualpha * _SQRT3_2 - pSvpwm->Ubeta / 2.0f;
     pSvpwm->u3 = -pSvpwm->Ualpha * _SQRT3_2 - pSvpwm->Ubeta / 2.0f;
 
-    if (pSvpwm->u1 > 0)
-    {
-        a = 1;
-    } else
-    {
-        a = 0;
-    }
-    if (pSvpwm->u2 > 0)
-    {
-        b = 1;
-    } else
-    {
-        b = 0;
-    }
-    if (pSvpwm->u3 > 0)
-    {
-        c = 1;
-    } else
-    {
-        c = 0;
-    }
+
+    a = (pSvpwm->u1 > 0);
+    b = (pSvpwm->u2 > 0);
+    c = (pSvpwm->u3 > 0);
 
     sector = 4 * c + 2 * b + a;
     switch (sector)
@@ -177,7 +159,7 @@ void SVPWM_Control(PSVPWM_t pSvpwm, float ualpha, float ubeta)
     __SVPWM_Generate(pSvpwm);
 }
 
-void SVPWM_Init(PSVPWM_t pSvpwm, struct Driver3 *driver, uint8_t Ts, uint8_t Udc)
+void SVPWM_Init(PSVPWM_t pSvpwm, struct Driver3 *driver, float Ts, float Udc)
 {
     pSvpwm->driver = driver;
     pSvpwm->Ualpha = 0;

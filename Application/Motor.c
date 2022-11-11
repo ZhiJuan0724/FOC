@@ -35,7 +35,7 @@ void Motor_FOC_Init(Motor_t *motor, FOC_t *foc, SVPWM_t *svpwm)
     if (motor->init == 0)
         return;
 
-    uint32_t ts = 1e6 / motor->driver3_handle->freq;
+    float ts = 1e6f / (float) motor->driver3_handle->freq;
     SVPWM_Init(svpwm, motor->driver3_handle, ts, motor->velocity_limit);
     FOC_Init(foc, svpwm, motor->sense_handle, motor->driver3_handle,
              motor->encoder_handle, motor->polePairs);
@@ -115,12 +115,38 @@ __weak void Motor_Velocity_Close_Control(Motor_t *pMotor)
 
 __weak void Motor_Position_Open_Control(Motor_t *pMotor)
 {
+    float err_angle = pMotor->target.target_val - Encoder_Get_Angle(pMotor->encoder_handle);
 
+    float iq;
+
+    if (err_angle > 0.5)
+    {
+        iq = pMotor->voltage_limit;
+    } else if (err_angle < -0.5)
+    {
+        iq = -pMotor->voltage_limit;
+    } else
+    {
+        iq = 0;
+    }
+
+    float ualpha = 0;
+    float ubeta = 0;
+    float angle = Encoder_Get_Angle_El(pMotor->encoder_handle);
+    Inv_Park(0, iq, &ualpha, &ubeta,
+             fast_sin(angle), fast_cos(angle));
+    SVPWM_Control(pMotor->foc->svpwm, ualpha, ubeta);
 }
 
 __weak void Motor_Velocity_Open_Control(Motor_t *pMotor)
 {
-
+    float iq = pMotor->target.target_val;
+    float ualpha = 0;
+    float ubeta = 0;
+    float angle = Encoder_Get_Angle_El(pMotor->encoder_handle);
+    Inv_Park(0, iq, &ualpha, &ubeta,
+             fast_sin(angle), fast_cos(angle));
+    SVPWM_Control(pMotor->foc->svpwm, ualpha, ubeta);
 }
 
 

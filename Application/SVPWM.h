@@ -37,7 +37,7 @@ typedef SVPWM_t *PSVPWM_t;
  * @param xSetChannelHighLeaveTime_us 设置三相绕组高电平时间
  * @param
  */  
-void SVPWM_Init(PSVPWM_t pSvpwm,struct Driver3 *driver,uint8_t Ts,uint8_t Udc);
+void SVPWM_Init(PSVPWM_t pSvpwm,struct Driver3 *driver,float Ts,float Udc);
 
 /**
  * @brief SVPWM生成周期函数,获取三相电流在一个SVPWM周期的高电平时间

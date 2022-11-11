@@ -3,6 +3,8 @@
 
 #include "FastMathFunctions.h"
 #include "MatrixFunctions.h"
+#include "FastPID.h"
+#include "MotorController.h"
 
 #include "stm32f1xx_hal.h"
 

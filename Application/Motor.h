@@ -9,6 +9,7 @@
 #include "PID.h"
 #include "Connectivity.h"
 #include "Monitor.h"
+#include "Utils.h"
 
 typedef enum Motor_Control_Type
 {
@@ -47,9 +48,11 @@ typedef struct Motor
     // 不能为指针 直接传值,改变外部不影响内部PID和目标
     struct Motor_Target target;
     uint8_t init;
+    struct PID speed_pid;
+    struct PID postion_pid;
+    struct PID iq_pid;
+    struct PID id_pid;
 } Motor_t;
-
-
 
 
 
