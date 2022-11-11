@@ -70,20 +70,9 @@ void Driver3_Set_Pwm(Driver3_t *driver, uint32_t pulse1, uint32_t pulse2, uint32
 {
     uint32_t ARR_MAX = driver->ARR;
 
-    if (pulse1 > ARR_MAX)
-    {
-        pulse1 = ARR_MAX;
-    }
-
-    if (pulse2 > ARR_MAX)
-    {
-        pulse2 = ARR_MAX;
-    }
-
-    if (pulse3 > ARR_MAX)
-    {
-        pulse3 = ARR_MAX;
-    }
+    pulse1 = pulse1 > ARR_MAX ? (ARR_MAX - 1) : pulse1;
+    pulse2 = pulse2 > ARR_MAX ? (ARR_MAX - 1) : pulse2;
+    pulse3 = pulse3 > ARR_MAX ? (ARR_MAX - 1) : pulse3;
 
     __HAL_TIM_SET_COMPARE(driver->driver_handle, driver->channel_a, pulse1);
     __HAL_TIM_SET_COMPARE(driver->driver_handle, driver->channel_b, pulse2);

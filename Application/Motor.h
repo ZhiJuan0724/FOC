@@ -107,13 +107,19 @@ void Motor_Link_Sense(Motor_t *motor, Sense_t *sense);
 void Motor_Set_Target(Motor_t *motor, Motor_Target_t target);
 
 /**
+ * 更新FOC电流PID参数
+ * @param motor 电机指针
+ */
+void Motor_Update_FOC_PID(Motor_t *motor);
+
+/**
  * 电机运行循环
  * @param motor 电机指针
  */
 void Motor_Run(Motor_t *motor);
 /**
  * 电机输出停止
- * @param motor
+ * @param motor 电机指针
  */
 void Motor_Stop(Motor_t *motor);
 

@@ -28,6 +28,7 @@ void Motor_FOC_Init(Motor_t *motor, FOC_t *foc, SVPWM_t *svpwm)
     SVPWM_Init(svpwm, motor->driver3_handle, ts, motor->velocity_limit);
     FOC_Init(foc, svpwm, motor->sense_handle, motor->driver3_handle,
              motor->encoder_handle, motor->polePairs);
+    FOC_Set_CurrentPID(foc, motor->id_pid, motor->iq_pid);
     motor->foc = foc;
 }
 
@@ -92,6 +93,11 @@ void Motor_Run(Motor_t *motor)
     }
 }
 
+void Motor_Update_FOC_PID(Motor_t *motor)
+{
+    FOC_Set_CurrentPID(motor->foc, motor->id_pid, motor->iq_pid);
+}
+
 __weak void Motor_Position_Close_Control(Motor_t *pMotor)
 {
     float position = Encoder_Get_Angle(pMotor->encoder_handle);
@@ -103,9 +109,10 @@ __weak void Motor_Position_Close_Control(Motor_t *pMotor)
     // 速度PID
     PID_Calc(&pMotor->speed_pid, speed, pMotor->postion_pid.out);
 
-    FOC_Set_CurrentTar(pMotor->foc,0,pMotor->speed_pid.out);
-    FOC_Set_CurrentPID(pMotor->foc, pMotor->id_pid, pMotor->iq_pid);
+    //更新目标
+    FOC_Set_CurrentTar(pMotor->foc, 0, pMotor->speed_pid.out);
 
+    //FOC控制循环
     FOC_Control(pMotor->foc);
 }
 
@@ -116,9 +123,10 @@ __weak void Motor_Velocity_Close_Control(Motor_t *pMotor)
     //速度PID
     PID_Calc(&pMotor->speed_pid, speed, pMotor->target.target_val);
 
-    FOC_Set_CurrentTar(pMotor->foc,0,pMotor->speed_pid.out);
-    FOC_Set_CurrentPID(pMotor->foc, pMotor->id_pid, pMotor->iq_pid);
+    //更新目标
+    FOC_Set_CurrentTar(pMotor->foc, 0, pMotor->speed_pid.out);
 
+    //FOC控制循环
     FOC_Control(pMotor->foc);
 }
 
