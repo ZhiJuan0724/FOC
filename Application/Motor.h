@@ -99,4 +99,45 @@ void Motor_Link_Driver3(Motor_t *motor, Driver3_t *driver3);
  */
 void Motor_Link_Sense(Motor_t *motor, Sense_t *sense);
 
+/**
+ * 设置电机运行目标
+ * @param motor 电机指针
+ * @param target 目标指针
+ */
+void Motor_Set_Target(Motor_t *motor, Motor_Target_t target);
+
+/**
+ * 电机运行循环
+ * @param motor 电机指针
+ */
+void Motor_Run(Motor_t *motor);
+/**
+ * 电机输出停止
+ * @param motor
+ */
+void Motor_Stop(Motor_t *motor);
+
+/**
+ * 闭环位置控制 可以被重写
+ * @param pMotor 电机指针
+ */
+__weak void Motor_Position_Close_Control(Motor_t *pMotor);
+
+/**
+ * 闭环速度控制 可以被重写
+ * @param pMotor 电机指针
+ */
+__weak void Motor_Velocity_Close_Control(Motor_t *pMotor);
+
+/**
+ * 开环位置控制 可以被重写
+ * @param pMotor 电机指针
+ */
+__weak void Motor_Position_Open_Control(Motor_t *pMotor);
+
+/**
+ * 开环速度控制 可以被重写
+ * @param pMotor 电机指针
+ */
+__weak void Motor_Velocity_Open_Control(Motor_t *pMotor);
 #endif
