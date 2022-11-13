@@ -102,7 +102,7 @@ void Motor_Link_Sense(Motor_t *motor, Sense_t *sense);
 /**
  * 设置电机运行目标
  * @param motor 电机指针
- * @param target 目标指针
+ * @param target 目标
  */
 void Motor_Set_Target(Motor_t *motor, Motor_Target_t target);
 

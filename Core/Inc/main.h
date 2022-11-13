@@ -38,6 +38,7 @@ extern "C" {
 #include "SVPWM.h"
 #include "Foc.h"
 #include "Sense.h"
+#include "Motor.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -50,6 +51,11 @@ extern struct Driver3 xdriver;
 extern struct SVPWM xsvpwm;
 extern struct FOC xfoc;
 extern struct Sense xsense;
+extern struct Motor xmotor;
+extern struct PID xspeedPID;
+extern struct PID xpositionPID;
+extern struct PID xiqPID;
+extern struct PID xidPID;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

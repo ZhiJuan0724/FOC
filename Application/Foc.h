@@ -1,10 +1,11 @@
 #ifndef _FOC_H
 #define _FOC_H
 
+#include <stdint.h>
+#include <stdio.h>
+
 #include "SVPWM.h"
-#include "stdio.h"
 #include "Utils.h"
-#include "stdint.h"
 #include "PID.h"
 #include "Encoder.h"
 #include "Sense.h"

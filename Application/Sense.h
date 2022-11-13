@@ -2,7 +2,6 @@
 #define _SENSE_H
 
 #include "stm32f1xx_hal.h"
-#include "adc.h"
 
 // DMA缓存
 extern uint32_t __pADC_Data[3];
@@ -45,7 +44,7 @@ void Sense_Set_2Ch(Sense_t *sense, uint32_t ch_a, uint32_t ch_b, float gain_a, f
 void Sense_Start(Sense_t *sense);
 void Sense_Stop(Sense_t *sense);
 void Sense_Update(Sense_t *sense);
-void Sense_Config(Sense_t *sense);
+void Sense_Config(Sense_t *sense, uint32_t pluse);
 void Sense_Calibrate_Offsets(Sense_t *sense);
 
 #endif

@@ -1,12 +1,9 @@
 #ifndef _UTILS_H
 #define _UTILS_H
 
-#include "FastMathFunctions.h"
-#include "MatrixFunctions.h"
-#include "FastPID.h"
-#include "MotorController.h"
-
 #include "stm32f1xx_hal.h"
+
+#include "fast_math.h"
 
 typedef struct GPIO_Pin_Info
 {

@@ -66,6 +66,17 @@ uint8_t __Motor_HardWare_Init_Check(Motor_t *motor)
     return check;
 }
 
+void Motor_Start(Motor_t *motor)
+{
+    Sense_Calibrate_Offsets(motor->sense_handle);
+
+    Encoder_Start(motor->encoder_handle);
+
+    Driver3_Start(motor->driver3_handle);
+
+    Sense_Start(motor->sense_handle);
+}
+
 void Motor_Set_Target(Motor_t *motor, Motor_Target_t target)
 {
     motor->target = target;

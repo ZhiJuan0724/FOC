@@ -13,8 +13,9 @@ void Driver3_Init(Driver3_t *driver, TIM_HandleTypeDef *driver_handle,
     driver->en_c = en_c;
     driver->ARR = __HAL_TIM_GET_AUTORELOAD(driver_handle);
     driver->init = 1;
-    driver->freq = 1000;
     driver->state = 0;
+    // 默认10KHz
+    Driver3_Config(driver, 10000);
 }
 
 void Driver3_Start(Driver3_t *driver)

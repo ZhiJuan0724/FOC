@@ -62,9 +62,9 @@ void Sense_Stop(Sense_t *sense)
     HAL_ADC_Stop_DMA(sense->adc_handle);
 }
 
-void Sense_Config(Sense_t *sense)
+void Sense_Config(Sense_t *sense,uint32_t pluse)
 {
-    __HAL_TIM_SetCompare(sense->adc_trggier_handle, sense->trggier_channel, 1000);
+    __HAL_TIM_SetCompare(sense->adc_trggier_handle, sense->trggier_channel, pluse - 1);
 }
 
 void Sense_Calibrate_Offsets(Sense_t *sense)
@@ -103,9 +103,9 @@ void Sense_Calibrate_Offsets(Sense_t *sense)
 
 void Sense_Update(Sense_t *sense)
 {
-    sense->val_a = __pADC_Data[0] / 4096.0f * sense->v_ref;
-    sense->val_b = __pADC_Data[1] / 4096.0f * sense->v_ref;
-    sense->val_c = __pADC_Data[2] / 4096.0f * sense->v_ref;
+    sense->val_a = (float)__pADC_Data[0] / 4096.0f * sense->v_ref;
+    sense->val_b = (float)__pADC_Data[1] / 4096.0f * sense->v_ref;
+    sense->val_c = (float)__pADC_Data[2] / 4096.0f * sense->v_ref;
 
     if (sense->swift)
     {
