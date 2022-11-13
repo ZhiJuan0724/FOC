@@ -231,7 +231,7 @@ void Device_Init()
 
     Motor_FOC_Init(&xmotor, &xfoc, &xsvpwm);
 
-    Motor_Target_t  motor_target = {};
+    Motor_Target_t  motor_target = {0};
     motor_target.target_val = 5 * _PI;
     motor_target.target_type = VELOCITY_TARGET;
     motor_target.control_type = VELOCITY_OPEN_CONTROL;

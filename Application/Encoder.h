@@ -9,7 +9,7 @@
  * 1.选择 EncoderMode TI1 and TI2 时 cpr值设置为编码器标示值*4
  * 2.用于编码器更新和速度计算的定时器的触发时间尽量不高于10ms
  ******************************************************************************
- */ 
+ */
 #ifndef _ENCODER_H
 #define _ENCODER_H
 
@@ -22,17 +22,17 @@
  */
 typedef struct Encoder
 {
-  TIM_HandleTypeDef *encoder_handle;
-  TIM_HandleTypeDef *caculate_handle;
-  int64_t cpr;
-  uint32_t last_CNT;
-  uint32_t now_CNT;
-  float angle_el;
-  float angle;
-  int32_t circle;
-  float velocity;
-  uint8_t state;
-  uint8_t init;
+    TIM_HandleTypeDef *encoder_handle;
+    TIM_HandleTypeDef *caculate_handle;
+    int64_t cpr;
+    uint32_t last_CNT;
+    uint32_t now_CNT;
+    float angle_el;
+    float angle;
+    int32_t circle;
+    float velocity;
+    uint8_t state;
+    uint8_t init;
 } Encoder_t;
 
 /**
